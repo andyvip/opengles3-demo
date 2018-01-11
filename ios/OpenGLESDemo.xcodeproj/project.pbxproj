@@ -23,6 +23,8 @@
 		A1565BEE20066DFA001563E9 /* triangle_render_vao.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1565BE720066DFA001563E9 /* triangle_render_vao.cpp */; };
 		A1565BEF20066DFA001563E9 /* triangle_render_ebo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1565BE920066DFA001563E9 /* triangle_render_ebo.cpp */; };
 		A1565BF020066DFA001563E9 /* cube_render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1565BEA20066DFA001563E9 /* cube_render.cpp */; };
+		A1565C30200688C1001563E9 /* gl_render_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1565C2F200688C1001563E9 /* gl_render_utils.cpp */; };
+		A1565C332007A89F001563E9 /* triangle_render_mapbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1565C322007A89F001563E9 /* triangle_render_mapbuffer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,9 @@
 		A1565BE820066DFA001563E9 /* gl_render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_render.h; sourceTree = "<group>"; };
 		A1565BE920066DFA001563E9 /* triangle_render_ebo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_render_ebo.cpp; sourceTree = "<group>"; };
 		A1565BEA20066DFA001563E9 /* cube_render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cube_render.cpp; sourceTree = "<group>"; };
+		A1565C2F200688C1001563E9 /* gl_render_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gl_render_utils.cpp; sourceTree = "<group>"; };
+		A1565C322007A89F001563E9 /* triangle_render_mapbuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_render_mapbuffer.cpp; sourceTree = "<group>"; };
+		A1565C352007D245001563E9 /* gl_render_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gl_render_utils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +179,8 @@
 		A1565BE320066DFA001563E9 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				A1565C2F200688C1001563E9 /* gl_render_utils.cpp */,
+				A1565C352007D245001563E9 /* gl_render_utils.h */,
 				A1565BE420066DFA001563E9 /* triangle_render.cpp */,
 				A1565BE520066DFA001563E9 /* gl_render.cpp */,
 				A1565BE620066DFA001563E9 /* triangle_render_vbo.cpp */,
@@ -181,6 +188,7 @@
 				A1565BE820066DFA001563E9 /* gl_render.h */,
 				A1565BE920066DFA001563E9 /* triangle_render_ebo.cpp */,
 				A1565BEA20066DFA001563E9 /* cube_render.cpp */,
+				A1565C322007A89F001563E9 /* triangle_render_mapbuffer.cpp */,
 			);
 			path = render;
 			sourceTree = "<group>";
@@ -320,12 +328,14 @@
 			files = (
 				A1565BEE20066DFA001563E9 /* triangle_render_vao.cpp in Sources */,
 				A1565BEC20066DFA001563E9 /* gl_render.cpp in Sources */,
+				A1565C30200688C1001563E9 /* gl_render_utils.cpp in Sources */,
 				A1565BEF20066DFA001563E9 /* triangle_render_ebo.cpp in Sources */,
 				A1565BED20066DFA001563E9 /* triangle_render_vbo.cpp in Sources */,
 				A1565BB020066CEE001563E9 /* ViewController.mm in Sources */,
 				A1565BEB20066DFA001563E9 /* triangle_render.cpp in Sources */,
 				A1565BBB20066CEE001563E9 /* main.m in Sources */,
 				A1565BF020066DFA001563E9 /* cube_render.cpp in Sources */,
+				A1565C332007A89F001563E9 /* triangle_render_mapbuffer.cpp in Sources */,
 				A1565BAD20066CEE001563E9 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

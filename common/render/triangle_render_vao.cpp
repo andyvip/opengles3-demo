@@ -28,7 +28,7 @@ namespace glrender {
             "    o_fragColor = v_color; \n"
             "}";
 
-    class TriangleRenderVAO :public GLRender {
+    class TriangleRenderVAO : public GLRender {
     public:
         virtual ~TriangleRenderVAO();
 
@@ -52,7 +52,7 @@ namespace glrender {
 
         GLfloat vertex_postion[] =
             {
-                0.0f,  0.5f, 0.0f,        // v0
+                0.0f, 0.5f, 0.0f,        // v0
                 -0.5f, -0.5f, 0.0f,        // v1
                 0.5f, -0.5f, 0.0f         // v2
             };
@@ -63,7 +63,7 @@ namespace glrender {
                 0.0f, 0.0f, 1.0f, 1.0f    // c2
             };
 
-        GLushort indices[] = { 0, 1, 2 };
+        GLushort indices[] = {0, 1, 2};
 
         GLuint vbo_ids[3] = {0};
         glGenBuffers(3, vbo_ids);
@@ -78,9 +78,9 @@ namespace glrender {
         glBindVertexArray(vao_ids[0]);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[0]);
-        glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[1]);
-        glVertexAttribPointer (1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_ids[2]);
 
         glEnableVertexAttribArray(0);
@@ -104,11 +104,11 @@ namespace glrender {
         glUseProgram(program_);
 
         glBindVertexArray(vao_ids[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
         glBindVertexArray(0);
     }
 
-    TriangleRenderVAO::~TriangleRenderVAO(){
+    TriangleRenderVAO::~TriangleRenderVAO() {
         glDeleteProgram(program_);
     }
 

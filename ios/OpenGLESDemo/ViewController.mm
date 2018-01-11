@@ -29,7 +29,7 @@
     [EAGLContext setCurrentContext:context];
     
     _dpi = [[UIScreen mainScreen] scale];
-    _render = glrender::CreateRender(glrender::kTriangleRenderVAO);
+    _render = glrender::CreateRender(glrender::KCubeRender);
     _render->Init();
 }
 
