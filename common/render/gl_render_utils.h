@@ -22,38 +22,18 @@
 
 #define GLRender_LOG(...) LogPrint(__VA_ARGS__)
 
-namespace glrender {
-    class GLRender;
-    
-    enum GLRenderType {
-        kTriangleRender,
-        kTriangleRenderVBO,
-        kTriangleRenderEBO,
-        kTriangleRenderVAO,
-        kTriangleRenderMapBuffer,
-        KCubeRender,
-    };
-    
-    typedef struct
-    {
+namespace gl_render {
+    typedef struct {
         GLfloat   m[4][4];
-    } ESMatrix;
-    
-    GLRender *CreateRender(GLRenderType type);
-    
+    } Matrix;
+        
     void LogPrint(const char *fmt, ...);
-    void esTranslate ( ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz );
-    void esRotate ( ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z );
-    void
-    esMatrixLoadIdentity ( ESMatrix *result );
-    
-    
-    void
-    esMatrixLoadIdentity ( ESMatrix *result );
-    void
-    esPerspective ( ESMatrix *result, float fovy, float aspect, float nearZ, float farZ );
-    void esMatrixMultiply ( ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB );
-
+    void Translate(Matrix *result, GLfloat tx, GLfloat ty, GLfloat tz);
+    void Rotate(Matrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
+    void MatrixLoadIdentity(Matrix *result);
+    void Perspective(Matrix *result, float fovy, float aspect, float nearZ, float farZ);
+    void MatrixMultiply(Matrix *result, Matrix *srcA, Matrix *srcB);
+    GLuint CreateProgram(const char *vtxSrc, const char *fragSrc);
 }
 
 #endif /* gl_render_utils_h */

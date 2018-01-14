@@ -2,10 +2,13 @@
 // Created by andy on 07/01/2018.
 //
 
+#include <vector>
+#include <string>
 #include "gl_render.h"
-#include <stdlib.h>
+#include "gl_render_utils.h"
+#include "gl_render_factory.h"
 
-namespace glrender {
+namespace gl_render {
 
     bool GLRender::Init() {
         GLRender_LOG("GL_VERSION: %s", glGetString(GL_VERSION));
@@ -33,90 +36,13 @@ namespace glrender {
     GLRender::~GLRender() {
 
     }
-
-    bool GLRender::CheckGlError(const char *funcName) {
-        GLint err = glGetError();
-        if (err != GL_NO_ERROR) {
-            GLRender_LOG("GL error after %s(): 0x%08x\n", funcName, err);
-            return true;
-        }
-        return false;
+    
+    GLRender* CreateRenderExample(std::string name) {
+        return GLRenderFactory::NewInstanceByName(name);
     }
-
-    GLuint GLRender::CreateShader(GLenum shaderType, const char *src) {
-        GLuint shader = glCreateShader(shaderType);
-        if (!shader) {
-            CheckGlError("glCreateShader");
-            return 0;
-        }
-        glShaderSource(shader, 1, &src, NULL);
-
-        GLint compiled = GL_FALSE;
-        glCompileShader(shader);
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-        if (!compiled) {
-            GLint infoLogLen = 0;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLen);
-            if (infoLogLen > 0) {
-                GLchar *infoLog = (GLchar *) malloc(infoLogLen);
-                if (infoLog) {
-                    glGetShaderInfoLog(shader, infoLogLen, NULL, infoLog);
-                    GLRender_LOG("Could not compile %s shader:\n%s\n",
-                                 shaderType == GL_VERTEX_SHADER ? "vertex" : "fragment",
-                                 infoLog);
-                    free(infoLog);
-                }
-            }
-            glDeleteShader(shader);
-            return 0;
-        }
-
-        return shader;
+    
+    std::vector<std::string>* GetAllRenderExampleName() {
+        return GLRenderFactory::GetAllRenderNames();
     }
-
-    GLuint GLRender::CreateProgram(const char *vtxSrc, const char *fragSrc) {
-        GLuint vtxShader = 0;
-        GLuint fragShader = 0;
-        GLuint program = 0;
-        GLint linked = GL_FALSE;
-
-        vtxShader = CreateShader(GL_VERTEX_SHADER, vtxSrc);
-        if (!vtxShader)
-            goto exit;
-
-        fragShader = CreateShader(GL_FRAGMENT_SHADER, fragSrc);
-        if (!fragShader)
-            goto exit;
-
-        program = glCreateProgram();
-        if (!program) {
-            CheckGlError("glCreateProgram");
-            goto exit;
-        }
-        glAttachShader(program, vtxShader);
-        glAttachShader(program, fragShader);
-
-        glLinkProgram(program);
-        glGetProgramiv(program, GL_LINK_STATUS, &linked);
-        if (!linked) {
-            GLRender_LOG("Could not link program");
-            GLint infoLogLen = 0;
-            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLen);
-            if (infoLogLen) {
-                GLchar *infoLog = (GLchar *) malloc(infoLogLen);
-                if (infoLog) {
-                    glGetProgramInfoLog(program, infoLogLen, NULL, infoLog);
-                    GLRender_LOG("Could not link program:\n%s\n", infoLog);
-                    free(infoLog);
-                }
-            }
-            glDeleteProgram(program);
-            program = 0;
-        }
-
-        exit:
-        glDeleteShader(vtxShader);
-        glDeleteShader(fragShader);
-        return program;
-    }
+    
 }

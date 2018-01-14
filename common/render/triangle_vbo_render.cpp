@@ -7,19 +7,19 @@
 #include "gl_render_factory.h"
 
 namespace gl_render {
-    class TriangleRender : public GLRender {
-        
+
+    class TriangleVBORender : public GLRender {
     private:
         GLuint program_;
-        
+
     public:
-        virtual ~TriangleRender() {
+        virtual ~TriangleVBORender() {
             glDeleteProgram(program_);
         }
-        
+
         virtual bool Init() {
             GLRender::Init();
-
+            
             const char vertext_shader[] =
             "#version 300 es                            \n"
             "layout(location = 0) in vec4 a_position;   \n"
@@ -45,40 +45,61 @@ namespace gl_render {
             program_ = CreateProgram(vertext_shader, frag_shader);
             if (!program_)
                 return false;
-            
+
             glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
             return true;
         }
-        
         virtual void Resize(int w, int h) {
             GLRender::Resize(w, h);
+            glViewport(0, 0, w, h);
         }
-        
+
         virtual void Render() {
-            static const GLfloat vertex_postion[] = {
-                1.0, -1.0, 0,
-                -1.0, -1.0, 0,
-                0, 1.0, 0
+            
+            GLfloat vertex_postion[] =
+            {
+                0.0f, 0.5f, 0.0f,        // v0
+                -0.5f, -0.5f, 0.0f,        // v1
+                0.5f, -0.5f, 0.0f         // v2
+            };
+            GLfloat vertex_color[] =
+            {
+                1.0f, 0.0f, 0.0f, 1.0f,   // c0
+                0.0f, 1.0f, 0.0f, 1.0f,   // c1
+                0.0f, 0.0f, 1.0f, 1.0f    // c2
             };
             
-            static const GLfloat vertex_color[] = {1.0f, 0.0f, 0.0f, 1.0f};
             
             glClear(GL_COLOR_BUFFER_BIT);
             glUseProgram(program_);
             
+            GLuint vbo_ids[2] = {0};
+            glGenBuffers(2, vbo_ids);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[0]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_postion), vertex_postion, GL_STATIC_DRAW);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[1]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_color), vertex_color, GL_STATIC_DRAW);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[0]);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_ids[1]);
+            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+            //glBindBuffer(GL_ARRAY_BUFFER, 0);
+            //glVertexAttribPointer (1, 4, GL_FLOAT, GL_FALSE, 0, vertex_color);
+            
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertex_postion);
-            glVertexAttrib4fv(1, vertex_color);
+            glEnableVertexAttribArray(1);
             
-            glViewport(0, 0, GLRender::width_ / 2, GLRender::height_ / 2);
             glDrawArrays(GL_TRIANGLES, 0, 3);
             
-            glViewport(GLRender::width_ / 2, GLRender::height_ / 2, GLRender::width_ / 2,
-                       GLRender::height_ / 2);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
-        
+
     };
-    
-    GLRenderFactoryCreator(TriangleRender);
+
+    GLRenderFactoryCreator(TriangleVBORender);
 }
+

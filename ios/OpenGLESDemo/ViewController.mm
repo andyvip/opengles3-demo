@@ -11,7 +11,7 @@
 
 @interface ViewController ()
 {
-    glrender::GLRender *_render;
+    gl_render::GLRender *_render;
     CGFloat _dpi;
 }
 @end
@@ -29,8 +29,10 @@
     [EAGLContext setCurrentContext:context];
     
     _dpi = [[UIScreen mainScreen] scale];
-    _render = glrender::CreateRender(glrender::KCubeRender);
-    _render->Init();
+    _render = gl_render::CreateRenderExample("TextureSimpleRender");
+    if(_render != NULL) {
+        _render->Init();
+    }
 }
 
 
@@ -45,11 +47,15 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    _render->Resize(rect.size.width*_dpi, rect.size.height*_dpi);
+    if(_render != NULL) {
+        _render->Resize(rect.size.width*_dpi, rect.size.height*_dpi);
+    }
 }
 
 - (void)update {
-    _render->Render();
+    if(_render != NULL) {
+        _render->Render();
+    }
 }
 
 @end

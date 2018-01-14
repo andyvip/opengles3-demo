@@ -1,3 +1,5 @@
+#include <vector>
+#include <string>
 #include <jni.h>
 #include <gl_render.h>
 
@@ -16,7 +18,7 @@ Java_example_andy_openglesdemo_GLJNILib_resize(JNIEnv *env, jobject obj, jint wi
 JNIEXPORT void JNICALL Java_example_andy_openglesdemo_GLJNILib_render(JNIEnv *env, jobject obj);
 };
 
-using namespace glrender;
+using namespace gl_render;
 static GLRender *kRenderer = NULL;
 
 JNIEXPORT void JNICALL
@@ -25,10 +27,13 @@ Java_example_andy_openglesdemo_GLJNILib_init(JNIEnv *env, jobject obj, jint type
         delete kRenderer;
         kRenderer = NULL;
     }
-    kRenderer = CreateRender((GLRenderType) type);
+
+    std::vector<std::string> *name_vec = GetAllRenderExampleName();
+    kRenderer = CreateRenderExample((*name_vec)[type]);
     if (kRenderer == NULL) {
         ALOGD("Java_example_andy_cube_GLJNILib_init fail");
     }
+    delete name_vec;
 }
 
 JNIEXPORT void JNICALL
